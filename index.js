@@ -11,6 +11,7 @@ let multerConfig = multer.diskStorage({
     }, filename(req, file, cb) {
         //chỉ cho phép tải lên các loại ảnh png & jpg
         let math = ["image/png", "image/jpeg"];
+        //thông báo lỗi khi upload file không hợp lệ
         if (math.indexOf(file.mimetype) === -1) {
             let errorMess = 'file ' + file.originalname + ' không hợp lệ. Chỉ được Upload file ảnh đuôi jpeg hoặc png.';
             return cb(errorMess, null);
@@ -25,19 +26,22 @@ let multerConfig = multer.diskStorage({
     }
 })
 
+//giới gạn kích thước 1 file
 let upload = multer({
     storage: multerConfig, limits: {
         fileSize: 2 * 1024 * 1024
     }
 })
 
-
+// upload 1 file
 let file = upload.single('avatar')
 
-
+//upload nhiều file
 let uploadManyFiles = multer({storage: multerConfig}).array("avatar", 5);
+
 app.post('/upload',
     (req, res) => {
+        //hiển thị các thông báo khi upload 1 file
         // file(req, res, function (err) {
         //     if (err) {
         //         // kiem tra loi co phai la max file ko
@@ -53,6 +57,7 @@ app.post('/upload',
         //     }
         // })
 
+        //hiển thị các thông báo khi upload nhiều file
         uploadManyFiles(req, res, function (err) {
             if (req.files.length <= 0) {
                 res.send('Không có ảnh nào tải lên !')
