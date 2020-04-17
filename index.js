@@ -54,16 +54,18 @@ app.post('/upload',
         // })
 
         uploadManyFiles(req, res, function (err) {
-            if (err) {
-                if (req.files.length <= 0) {
-                    res.send('không có file nào tải lên')
-                } else if (req.files.length > 5) {
-                    res.send('chỉ được tải lên giới hạn 5 file')
+            if (req.files.length <= 0) {
+                res.send('Không có ảnh nào tải lên !')
+            } else if (err) {
+                if (req.files.length >= 5) {
+                    res.send('Upload ảnh không thành công. Chỉ được tải lên giới hạn 5 file')
+                } else if (err instanceof multer.MulterError) {
+                    res.send('Upload ảnh không thành công. Chỉ được tải lên ảnh giới hạn 2MB')
                 } else {
                     res.send('' + err)
                 }
             } else {
-                res.send('thanh cong roi kiem tra thu muc uploads')
+                res.send('Upload ' + req.files.length + ' ảnh thành công. Kiểm tra thư mục uploads')
             }
         })
     });
