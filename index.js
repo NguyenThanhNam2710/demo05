@@ -9,11 +9,11 @@ let multerConfig = multer.diskStorage({
         //thiết lập file lưu
         cb(null, './uploads');
     }, filename(req, file, cb) {
-        //chỉ cho phép tải lên các loại ảnh png & jpg
-        let math = ["image/png", "image/jpeg"];
+        //chỉ cho phép tải lên các loại ảnh jpeg & jpg
+        let math = ["image/jpeg"];
         //thông báo lỗi khi upload file không hợp lệ
         if (math.indexOf(file.mimetype) === -1) {
-            let errorMess = 'file ' + file.originalname + ' không hợp lệ. Chỉ được Upload file ảnh đuôi jpeg hoặc png.';
+            let errorMess = 'file ' + file.originalname + ' không hợp lệ. Chỉ được Upload file ảnh đuôi jpeg & jpg.';
             return cb(errorMess, null);
         } else {
             var date = new Date();
