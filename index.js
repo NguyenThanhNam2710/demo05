@@ -9,6 +9,7 @@ let multerConfig = multer.diskStorage({
         //thiết lập file lưu
         cb(null, './uploads');
     }, filename(req, file, cb) {
+
         //chỉ cho phép tải lên các loại ảnh jpeg & jpg
         let math = ["image/jpeg"];
         //thông báo lỗi khi upload file không hợp lệ
