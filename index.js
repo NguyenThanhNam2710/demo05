@@ -37,7 +37,11 @@ let upload = multer({
 let file = upload.single('avatar')
 
 //upload nhiều file
-let uploadManyFiles = multer({storage: multerConfig}).array("avatar", 5);
+let uploadManyFiles = multer({
+    storage: multerConfig, limits: {
+        fileSize: 2 * 1024 * 1024
+    }
+}).array("avatar", 5);
 
 app.post('/upload',
     (req, res) => {
@@ -59,9 +63,7 @@ app.post('/upload',
 
         //hiển thị các thông báo khi upload nhiều file
         uploadManyFiles(req, res, function (err) {
-            if (req.files.length <= 0) {
-                res.send('Không có ảnh nào tải lên !')
-            } else if (err) {
+            if (err) {
                 if (req.files.length >= 5) {
                     res.send('Upload ảnh không thành công. Chỉ được tải lên giới hạn 5 file')
                 } else if (err instanceof multer.MulterError) {
